@@ -1,5 +1,5 @@
 # GhostShell 
-Interactive shell for executing commands anonymously using Proxychains and Tor
+Interactive shell to execute commands anonymously using Proxychains and Tor
 
 **Installation**
 
