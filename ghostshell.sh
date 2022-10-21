@@ -6,49 +6,22 @@ YELLOW="\e[33m"
 BLUE="\e[34m"
 ENDCOLOR="\e[0m"
 
+hostname=$(hostname)
+
 echo -e "\n"
 toilet -f smbraille --gay 'GhostShell'
 echo -e "\n"
-echo -e "${YELLOW}[+] Searching Dependencies${ENDCOLOR}\n"
+echo -e "${YELLOW}[+] Starting Shell...${ENDCOLOR}\n"
 
-which tor >/dev/null
-a=$(echo $?)
+service tor status | grep " active" >/dev/null
+e=$(echo $?)
 
-which proxychains >/dev/null
-b=$(echo $?)
-
-which toilet >/dev/null
-c=$(echo $?)
-
-hostname=$(hostname)
-
-if [ $a == 0 ]; then
-        echo -e "${GREEN}[+] Tor Found${ENDCOLOR}"
-        if [ $b == 0 ]; then
-                echo -e "${GREEN}[+] ProxyChains Found${ENDCOLOR}"
-		if [ $c == 0 ]; then
-                	echo -e "${GREEN}[+] Toilet Found${ENDCOLOR}"
-		else
-			echo -e "${RED}[-] Missing Toilet${ENDCOLOR}\n"
-                	exit
-        	fi
-	else
-                echo -e "${RED}[-] Missing ProxyChains${ENDCOLOR}\n"
-		exit
-        fi
+if [ $e == 0 ]; then
+	echo -e "${GREEN}[+] Tor Active${ENDCOLOR}"
 else
-	echo -e "${RED}[-] Missing Tor${ENDCOLOR}\n"
-	exit
+	echo -e "${RED}[-] Tor Inactive${ENDCOLOR}\n"
+        exit
 fi
-
-
-
-rm /etc/proxychains.conf 2>/dev/null
-
-wget https://raw.githubusercontent.com/S12cybersecurity/GhostShell/main/proxychains.conf -q | mv proxychains.conf /etc/. >/dev/null
-
-service tor start
-
 
 
 while [ "$command" != "exit" ]
@@ -58,3 +31,4 @@ do
 	echo -e "${ENDCOLOR}"
 	proxychains -q $command
 done
+
