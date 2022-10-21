@@ -29,6 +29,6 @@ do
 	echo -e "${BLUE}"
 	read -p "ghost@$hostname~# " command 
 	echo -e "${ENDCOLOR}"
-	proxychains -q $command
+	proxychains4 -q $command 
 done
 
