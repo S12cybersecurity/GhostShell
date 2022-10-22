@@ -13,7 +13,11 @@ toilet -f smbraille --gay 'GhostShell'
 echo -e "\n"
 echo -e "${YELLOW}[+] Starting Shell...${ENDCOLOR}\n"
 
-service tor status | grep " active" >/dev/null
+if [ -d "/run/systemd/system" ]; then
+    systemctl status tor | grep " active" >/dev/null
+else
+    /etc/init.d/tor status | grep " active" >/dev/null
+fi
 e=$(echo $?)
 
 if [ $e == 0 ]; then
@@ -23,12 +27,12 @@ else
         exit
 fi
 
-
-while [ "$command" != "exit" ]
+while true
 do
 	echo -e "${BLUE}"
 	read -p "ghost@$hostname~# " command 
 	echo -e "${ENDCOLOR}"
-	proxychains4 -q $command 
+	[[ $command != "exit" && -n "$command" ]] &&\
+	proxychains4 -q $command || exit
 done
 
