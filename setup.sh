@@ -15,7 +15,7 @@ echo -e "${YELLOW}[+] Searching Dependencies${ENDCOLOR}\n"
 which tor >/dev/null
 a=$(echo $?)
 
-which proxychains >/dev/null
+which proxychains4 >/dev/null
 b=$(echo $?)
 
 which toilet >/dev/null
