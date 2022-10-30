@@ -13,7 +13,7 @@ toilet -f smbraille --gay 'GhostShell'
 echo -e "\n"
 echo -e "${YELLOW}[+] Starting Shell...${ENDCOLOR}\n"
 
-service tor status | grep " active" >/dev/null
+systemctl status tor.service | grep " active" >/dev/null
 e=$(echo $?)
 
 if [ $e == 0 ]; then
