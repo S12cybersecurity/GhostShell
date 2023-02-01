@@ -9,7 +9,7 @@ ENDCOLOR="\e[0m"
 hostname=$(hostname)
 
 echo -e "\n"
-toilet -f smbraille --gay 'GhostShell'
+toilet -f smbraille 'GhostShell'
 echo -e "\n"
 echo -e "${YELLOW}[+] Starting Shell...${ENDCOLOR}\n"
 
@@ -17,12 +17,13 @@ systemctl status tor.service | grep " active" >/dev/null
 e=$(echo $?)
 
 if [ $e == 0 ]; then
-	echo -e "${GREEN}[+] Tor Active${ENDCOLOR}"
+	echo -e "${GREEN}[+] Tor Active${ENDCOLOR}\n"
 else
 	echo -e "${RED}[-] Tor Inactive${ENDCOLOR}\n"
         exit
 fi
 
+echo -e "${YELLOW}[*] IP Address: $(proxychains4 -q curl -s https://api.ipify.org/)"
 
 while [ "$command" != "exit" ]
 do
@@ -31,4 +32,3 @@ do
 	echo -e "${ENDCOLOR}"
 	proxychains4 -q $command 
 done
-
